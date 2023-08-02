@@ -1,25 +1,25 @@
 # yaml-language-server: $schema=https://sap.github.io/ui5-tooling/schema/ui5.yaml.json
-
-specVersion: "2.6"
+specVersion: '2.4'
 metadata:
   name: z230travelm2
 type: application
+resources:
+  configuration:
+    propertiesFileSourceEncoding: UTF-8
 builder:
   resources:
     excludes:
-      - /test/**
-      - /localService/**
+      - "/test/**"
+      - "/localService/**"
   customTasks:
-    - name: deploy-to-abap
-      afterTask: generateCachebusterInfo
-      configuration:
-        target:
-          destination: abap-cloud-default_abap-trial-1c999ccatrial-dev
-          url: https://c75f608d-4148-434a-88e1-64b75d24911a.abap.us10.hana.ondemand.com
-          scp: true
-        app:
-          name: Z230_TRAVEL_M2
-          package: ZTRAVEL_APP_230
-          transport: TRLK900470
-        exclude:
-          - /test/
+  - name: webide-extension-task-updateManifestJson
+    afterTask: replaceVersion
+    configuration:
+      appFolder: webapp
+      destDir: dist
+  - name: ui5-task-zipper
+    afterTask: generateCachebusterInfo
+    configuration:
+      archiveName: z230travelm2
+      additionalFiles:
+      - xs-app.json
